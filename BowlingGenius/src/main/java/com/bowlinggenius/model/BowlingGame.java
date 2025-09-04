@@ -32,6 +32,27 @@ public class BowlingGame {
                 .orElse(null);
     }
     
+    public boolean isGameOver() {
+        if (frames == null || frames.isEmpty()) {
+            return false;
+        }
+        
+        // Vérifie si on a 10 frames complètes
+        if (frames.size() < 10) {
+            return false;
+        }
+        
+        BowlingFrame lastFrame = frames.get(9);
+        
+        // Si le dernier frame est un strike ou un spare, on a besoin d'un troisième lancer
+        if (lastFrame.isStrike() || lastFrame.isSpare()) {
+            return lastFrame.getThirdRoll() != null;
+        }
+        
+        // Sinon, on vérifie que les deux lancers sont effectués
+        return lastFrame.getSecondRoll() != null;
+    }
+    
     @Override
     public String toString() {
         return "BowlingGame{" +

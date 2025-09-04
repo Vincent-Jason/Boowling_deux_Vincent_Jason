@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test de communication</title>
+</head>
+<body>
+    <h1>Test de communication avec le serveur</h1>
+    
+    <h2>Test GET</h2>
+    <button onclick="testGet()">Tester GET</button>
+    <div id="getResult"></div>
+    
+    <h2>Test POST</h2>
+    <button onclick="testPost()">Tester POST</button>
+    <div id="postResult"></div>
+    
+    <script>
+    async function testGet() {
+        try {
+            const response = await fetch('http://localhost:8080/test');
+            const text = await response.text();
+            document.getElementById('getResult').textContent = 'Réponse: ' + text;
+        } catch (error) {
+            document.getElementById('getResult').textContent = 'Erreur: ' + error.message;
+        }
+    }
+    
+    async function testPost() {
+        try {
+            const response = await fetch('http://localhost:8080/test-post', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'data=test'
+            });
+            const text = await response.text();
+            document.getElementById('postResult').textContent = 'Réponse: ' + text;
+        } catch (error) {
+            document.getElementById('postResult').textContent = 'Erreur: ' + error.message;
+        }
+    }
+    </script>
+</body>
+</html>

@@ -102,11 +102,18 @@ public class BowlingService {
     }
     
     private void updateScores(BowlingGame game) {
+        if (game == null || game.getFrames() == null) {
+            return;
+        }
+        
         List<BowlingFrame> frames = game.getFrames();
         int score = 0;
         
-        for (int i = 0; i < frames.size(); i++) {
+        for (int i = 0; i < frames.size() && i < 10; i++) {  // Limite à 10 frames pour la sécurité
             BowlingFrame frame = frames.get(i);
+            if (frame == null) {
+                continue;
+            }
             
             // Score de base pour cette frame
             int frameScore = getFramePins(frame);

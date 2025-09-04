@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test API Bowling</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { padding: 20px; }
+        .btn { margin: 5px; }
+        #result { margin-top: 20px; padding: 15px; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Test API Bowling</h1>
+        
+        <div class="mb-3">
+            <h4>Test de l'endpoint /bowling/roll</h4>
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="testRoll(0)">0</button>
+                <button class="btn btn-primary" onclick="testRoll(1)">1</button>
+                <button class="btn btn-primary" onclick="testRoll(2)">2</button>
+                <button class="btn btn-primary" onclick="testRoll(3)">3</button>
+                <button class="btn btn-primary" onclick="testRoll(4)">4</button>
+                <button class="btn btn-primary" onclick="testRoll(5)">5</button>
+                <button class="btn btn-primary" onclick="testRoll(6)">6</button>
+                <button class="btn btn-primary" onclick="testRoll(7)">7</button>
+                <button class="btn btn-primary" onclick="testRoll(8)">8</button>
+                <button class="btn btn-primary" onclick="testRoll(9)">9</button>
+                <button class="btn btn-warning" onclick="testRoll(10)">Strike (10)</button>
+            </div>
+        </div>
+        
+        <div class="mb-3">
+            <h4>Test de l'endpoint /</h4>
+            <button class="btn btn-info" onclick="testHome()">Tester la page d'accueil</button>
+        </div>
+        
+        <div id="result">Cliquez sur un bouton pour tester l'API</div>
+        
+        <div class="mt-4">
+            <h4>Résultat brut :</h4>
+            <pre id="rawResult" style="background: #f8f9fa; padding: 10px; border-radius: 5px; min-height: 100px;"></pre>
+        </div>
+    </div>
+    
+    <script>
+    function testRoll(pins) {
+        const resultDiv = document.getElementById('result');
+        const rawResult = document.getElementById('rawResult');
+        
+        resultDiv.textContent = `Envoi de la requête pour ${pins} quilles...`;
+        resultDiv.className = '';
+        
+        fetch(`/bowling/roll?pins=${pins}`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP! Statut: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            rawResult.textContent = JSON.stringify(data, null, 2);
+            if (data.success) {
+                resultDiv.textContent = `Succès! Score: ${data.score}, Frame: ${data.currentFrame}, Partie terminée: ${data.gameOver ? 'Oui' : 'Non'}`;
+                resultDiv.className = 'success';
+            } else {
+                resultDiv.textContent = `Erreur: ${data.error || 'Erreur inconnue'}`;
+                resultDiv.className = 'error';
+            }
+        })
+        .catch(error => {
+            rawResult.textContent = error;
+            resultDiv.textContent = `Erreur lors de la requête: ${error.message}`;
+            resultDiv.className = 'error';
+        });
+    }
+    
+    function testHome() {
+        const resultDiv = document.getElementById('result');
+        const rawResult = document.getElementById('rawResult');
+        
+        resultDiv.textContent = 'Chargement de la page d\'accueil...';
+        resultDiv.className = '';
+        
+        fetch('/')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP! Statut: ${response.status}`);
+            }
+            return response.text();
+        })
+        .then(html => {
+            rawResult.textContent = html.substring(0, 500) + '...';
+            resultDiv.textContent = 'Page d\'accueil chargée avec succès!';
+            resultDiv.className = 'success';
+        })
+        .catch(error => {
+            rawResult.textContent = error;
+            resultDiv.textContent = `Erreur lors du chargement de la page d'accueil: ${error.message}`;
+            resultDiv.className = 'error';
+        });
+    }
+    </script>
+</body>
+</html>
