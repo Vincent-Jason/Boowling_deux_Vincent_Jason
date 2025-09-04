@@ -1,0 +1,267 @@
+:root {
+    --primary: #00b4d8;
+    --primary-hover: #0096c7;
+    --background: #121212;
+    --surface: #1e1e1e;
+    --text: #e0e0e0;
+    --text-secondary: #90caf9;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+main {
+    flex: 1;
+    padding: 2rem 1rem;
+    max-width: 1024px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+h1, h2 {
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+}
+
+/* Styles pour la liste des utilisateurs */
+.user-list {
+    margin-bottom: 2rem;
+    max-width: 800px;
+    margin: 0 auto 2rem;
+}
+
+.user-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: var(--surface);
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    transition: background-color 0.2s;
+}
+
+.user-list-item:hover {
+    background: var(--surface-hover);
+}
+
+.user-link {
+    color: var(--text);
+    text-decoration: none;
+    flex-grow: 1;
+    padding: 0.5rem 0;
+}
+
+.user-link:hover {
+    color: var(--primary);
+}
+
+.user-card {
+    background: var(--surface);
+    border-radius: 8px;
+    padding: 1.25rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transition: transform 0.2s, box-shadow 0.2s, opacity 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.user-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.user-name {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    padding-right: 1.5rem; /* Espace pour le bouton de suppression */
+}
+
+.delete-btn {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: #ff4444;
+    color: white;
+    border: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    padding: 0;
+    opacity: 0.7;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.delete-btn:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.delete-btn::before {
+    content: '×';
+    position: relative;
+    top: -1px;
+}
+
+.user-email {
+    color: var(--text-secondary);
+    font-size: 0.9em;
+}
+
+/* Styles pour la page de détail utilisateur */
+.user-detail {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+.user-info {
+    background: var(--surface);
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.info-item {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.info-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.info-label {
+    font-weight: 500;
+    color: var(--text-secondary);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.info-value {
+    font-size: 1.1rem;
+    color: var(--text);
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--primary);
+    text-decoration: none;
+    margin-bottom: 1.5rem;
+    transition: color 0.2s;
+}
+
+.back-link:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+}
+
+.back-link::before {
+    content: "←";
+    margin-right: 0.5rem;
+    font-size: 1.2em;
+}
+
+/* Styles pour le formulaire */
+.add-user-form {
+    background: var(--surface);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--surface);
+    color: var(--text);
+}
+
+.form-group textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+input[type="text"],
+input[type="email"] {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #444;
+    background-color: #2d2d2d;
+    color: var(--text);
+}
+
+button[type="submit"] {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    background-color: var(--primary-hover);
+}
+
+/* Message quand il n'y a pas d'utilisateurs */
+.no-users {
+    text-align: center;
+    padding: 2rem;
+    color: #888;
+    font-style: italic;
+}
+
+/* Amélioration de la grille pour les écrans larges */
+@media (min-width: 768px) {
+    .user-list {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+    
+    .add-user-form {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{fragments/fragments :: head('User Details')}">
+        <title>User Details</title>
+    </head>
+<body class="container">
+    <div th:replace="~{fragments/fragments :: header('User Details')}"></div>
+    <h2>Name:</h2>
+    <p th:text="${user.name}"></p>
+    <h2>Email:</h2>
+    <p th:text="${user.email}"></p>
+    <h2>Appointments:</h2>
+    <article th:each="appointment : ${user.appointments}">
+        <header th:text="${appointment.name}"></header>
+        <p th:text="${appointment.date}"></p>
+        <footer th:text="${appointment.description}"></footer>
+    </article>
+    <h2>Games:</h2>
+    <article th:each="game : ${user.games}">
+        <header th:text="${game.name}"></header>
+        <p th:text="${game.date}"></p>
+        <p th:text="${game.description}"></p>
+        <footer>
+            <span>participants</span>
+            <span class="chip" th:each="participant : ${game.participants}" th:text="${participant.name}"></span>
+        </footer>
+    </article>
+</body>
+</html>

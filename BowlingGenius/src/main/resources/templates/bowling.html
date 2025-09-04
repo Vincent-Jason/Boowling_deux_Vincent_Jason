@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bowling Genius</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+            padding: 20px;
+        }
+        .game-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .frame {
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 5px;
+            text-align: center;
+            background-color: #fff;
+        }
+        .frame-number {
+            font-weight: bold;
+            border-bottom: 1px solid #dee2e6;
+            margin-bottom: 5px;
+            padding-bottom: 3px;
+        }
+        .rolls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            min-height: 30px;
+        }
+        .roll {
+            flex: 1;
+            border: 1px solid #dee2e6;
+            margin: 0 1px;
+            padding: 2px;
+        }
+        .score {
+            font-weight: bold;
+            padding-top: 5px;
+            border-top: 1px solid #dee2e6;
+        }
+        .pins-buttons {
+            margin-top: 20px;
+        }
+        .pins-buttons .btn {
+            margin: 2px;
+            min-width: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="game-container">
+            <h1 class="text-center mb-4">Bowling Genius</h1>
+            
+            <!-- Formulaire de démarrage d'une nouvelle partie -->
+            <div th:if="${game == null || game.id == null}" class="text-center">
+                <h3>Commencer une nouvelle partie</h3>
+                <form th:action="@{/bowling/new}" method="post" class="row g-3 justify-content-center">
+                    <div class="col-auto">
+                        <input type="text" name="playerName" class="form-control" placeholder="Votre nom" required>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">Nouvelle Partie</button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Affichage du jeu -->
+            <div th:if="${game != null && game.id != null}">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>Joueur: <span th:text="${game.playerName}"></span></h3>
+                        <a href="/bowling" class="btn btn-secondary btn-sm">Nouveau Joueur</a>
+                    </div>
+                </div>
+                
+                <!-- Affichage des frames -->
+                <div class="row">
+                    <div th:each="frame : ${game.frames}" class="col-6 col-md-4 col-lg-2 mb-3">
+                        <div class="frame">
+                            <div class="frame-number" th:text="'Frame ' + ${frame.frameNumber}"></div>
+                            <div class="rolls">
+                                <div class="roll" th:if="${frame.firstRoll != null}" 
+                                     th:text="${frame.strike ? 'X' : frame.firstRoll}"></div>
+                                <div class="roll" th:if="${frame.firstRoll == null}">-</div>
+                                
+                                <div class="roll" th:if="${frame.secondRoll != null}" 
+                                     th:text="${frame.spare ? '/' : (frame.strike ? 'X' : frame.secondRoll)}"></div>
+                                <div class="roll" th:if="${frame.secondRoll == null && frame.firstRoll != null && !frame.strike}">-</div>
+                                
+                                <div class="roll" th:if="${frame.thirdRoll != null}" 
+                                     th:text="${frame.thirdRoll == 10 ? 'X' : frame.thirdRoll}"></div>
+                            </div>
+                            <div class="score" th:if="${frame.frameScore > 0}" th:text="${frame.frameScore}"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Boutons de lancer -->
+                <div th:if="${!game.complete}" class="text-center mt-4">
+                    <h4>Lancer la boule</h4>
+                    <div class="pins-buttons">
+                        <form th:each="i : ${#numbers.sequence(0, 10)}" th:action="@{/bowling/game/" + ${game.id} + "/roll}" method="post" class="d-inline">
+                            <input type="hidden" name="pins" th:value="${i}">
+                            <button type="submit" class="btn btn-outline-primary" th:text="${i}"></button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Message de fin de partie -->
+                <div th:if="${game.complete}" class="alert alert-success text-center mt-4">
+                    <h4>Partie terminée !</h4>
+                    <p>Score final: <strong th:text="${game.score}"></strong></p>
+                    <a href="/bowling" class="btn btn-primary">Nouvelle Partie</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

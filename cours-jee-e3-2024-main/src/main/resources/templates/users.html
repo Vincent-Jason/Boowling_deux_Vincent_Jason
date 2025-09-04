@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{fragments/fragments :: head('Users Dashboard')}">
+        <title>Spring Boot</title>
+    </head>
+    <body class="container">
+        <div th:replace="~{fragments/fragments :: header('Users Dashboard')}"></div>
+
+        <h2>Tax: <span th:text="${tax}">XXX</span><span>€</span></h2>
+        <h2>Users:</h2>
+        <div class="grid">
+            <article th:each="user : ${users}">
+                <a th:href="@{/users/{id}(id=${user.id})}" >
+                    <header th:text="${user.name}"></header>
+                </a>
+                <p th:text="${user.email}"></p>
+                <p th:text="${user.birthday != null ? user.birthday.date : 'Unknown DOB'}"></p>
+                <form th:action="@{/users/delete}" method="post">
+                    <input type="hidden" name="id" th:value="${user.id}">
+                    <button type="submit">Delete</button>
+                </form>
+            </article>
+        </div>
+        <h2>Add new user</h2>
+        <form th:action="@{/users}" method="post" th:object="${newUser}">
+            <fieldset>
+                <legend>User</legend>
+                <label for="name">Name:</label>
+                <input type="text" id="name" th:field="*{name}" th:placeholder="Rémy" >
+            </fieldset>
+            <fieldset>
+                <legend>User</legend>
+                <label for="email">Email:</label>
+                <input
+                    type="email"
+                    id="email"
+                    th:field="*{email}"
+                    th:placeholder="'rdupont@estiam.fr'"
+                >
+            </fieldset>
+            <button type="submit">Add user</button>
+        </form>
+    </body>
+</html>

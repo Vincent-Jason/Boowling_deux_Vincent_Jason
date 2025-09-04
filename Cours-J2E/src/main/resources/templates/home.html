@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/pico.css">
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/js/app.js" defer></script>
+    <title>Gestion des Utilisateurs</title>
+</head>
+<body>
+    <main class="container">
+        <h1>📋 Liste des Utilisateurs</h1>
+        
+        <div class="user-list" th:if="${!users.empty}">
+            <div class="user-list-item" th:each="user : ${users}" th:data-user-id="${user.id}">
+                <a th:href="@{/user/__${user.id}__}" class="user-link">
+                    <span th:text="${user.nom}"></span>
+                </a>
+                <button class="delete-btn" th:data-user-id="${user.id}" title="Supprimer l'utilisateur"></button>
+            </div>
+        </div>
+        
+        <div class="no-users" th:if="${users.empty}">
+            Aucun utilisateur pour le moment
+        </div>
+        
+        <div class="add-user-form">
+            <h2>➕ Ajouter un utilisateur</h2>
+            <form action="/addUser" method="post">
+                <div class="form-group">
+                    <label for="nom">Nom complet</label>
+                    <input type="text" id="nom" name="nom" placeholder="Entrez le nom" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Adresse email</label>
+                    <input type="email" id="email" name="email" placeholder="exemple@domaine.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="telephone">Téléphone</label>
+                    <input type="tel" id="telephone" name="telephone" placeholder="06 12 34 56 78">
+                </div>
+                <div class="form-group">
+                    <label for="adresse">Adresse postale</label>
+                    <textarea id="adresse" name="adresse" rows="2" placeholder="123 Rue de Paris, 75001 Paris"></textarea>
+                </div>
+                <button type="submit">Ajouter l'utilisateur</button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

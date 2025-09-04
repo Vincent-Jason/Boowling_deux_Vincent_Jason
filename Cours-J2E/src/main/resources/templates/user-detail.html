@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/pico.css">
+    <link rel="stylesheet" href="/styles.css">
+    <title>Détails de l'utilisateur</title>
+</head>
+<body>
+    <main class="container">
+        <a href="/" class="back-link">← Retour à la liste</a>
+        
+        <div class="user-detail">
+            <h1 th:text="'Profil de ' + ${user.nom}"></h1>
+            
+            <div class="user-info">
+                <div class="info-item">
+                    <span class="info-label">Nom complet :</span>
+                    <span class="info-value" th:text="${user.nom}"></span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Email :</span>
+                    <span class="info-value" th:text="${user.email}"></span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Téléphone :</span>
+                    <span class="info-value" th:text="${user.telephone != null ? user.telephone : 'Non renseigné'}"></span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Adresse :</span>
+                    <span class="info-value" th:if="${user.adresse != null}" th:text="${user.adresse}"></span>
+                    <span class="info-value" th:unless="${user.adresse != null}">Non renseignée</span>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
